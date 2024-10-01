@@ -11,8 +11,9 @@ app.use(express.json()); // Để parse JSON body
 app.use(cookieParser()); // Để parse cookies
 app.use(
   cors({
-    origin: "http://localhost:3000", // Địa chỉ client (nơi bạn gửi yêu cầu)
-    credentials: true, // Cho phép gửi cookie
+    origin: true, // Cho phép truy cập từ tất cả các domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Kích hoạt credentials
   })
 );
 
@@ -22,8 +23,8 @@ app.post("/login", (req, res) => {
 
   res.cookie("XSRF-TOKEN", csrfToken.toString(), {
     httpOnly: false,
-    secure: false,
-    sameSite: "None",
+    secure: true,
+    sameSite: "none",
   });
 
   // Thiết lập cookie frtoken

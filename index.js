@@ -18,16 +18,12 @@ app.use(
 
 // Route cho /login
 app.post("/login", (req, res) => {
-  // Thực hiện logic đăng nhập ở đây (như xác thực người dùng)
+  const csrfToken = Math.floor(Math.random() * 100) + 1;
 
-  // Tạo CSRF token
-  const csrfToken = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-  console.log(csrfToken.toString());
-  // Thiết lập cookie XSRF-TOKEN
   res.cookie("XSRF-TOKEN", csrfToken.toString(), {
-    httpOnly: false, // Không đặt httpOnly để có thể truy cập từ JS
-    secure: false, // Đặt true nếu bạn sử dụng HTTPS
-    sameSite: "Strict", // Hoặc 'Lax' tùy thuộc vào yêu cầu của bạn
+    httpOnly: false,
+    secure: false,
+    sameSite: "None",
   });
 
   // Thiết lập cookie frtoken
@@ -35,7 +31,7 @@ app.post("/login", (req, res) => {
   res.cookie("frtoken", frToken, {
     httpOnly: true, // Đặt httpOnly để không thể truy cập từ JS
     secure: false, // Đặt true nếu bạn sử dụng HTTPS
-    sameSite: "Strict", // Hoặc 'Lax' tùy thuộc vào yêu cầu của bạn
+    sameSite: "None", // Hoặc 'Lax' tùy thuộc vào yêu cầu của bạn
   });
 
   res.status(200).send("Login successful");
